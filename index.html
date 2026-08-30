@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TNEB Data Exploration & Visualization Platform | 2026 Rules</title>
+  <meta name="description"
+    content="Interactive Tamil Nadu Electricity Board (TNEB) tariff calculator, dataset visualization, and appliance consumption analytics under the 2026 government rules.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Background Glow FX -->
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+  <div class="bg-glow glow-3"></div>
+
+  <!-- Header Navigation -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <div class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-chart-line"></i></div>
+        <div class="logo-text">
+          <span class="brand-title">TNEB<span class="highlight">DEV Explorer</span></span>
+          <span class="brand-sub">Data Exploration & Visualization</span>
+        </div>
+      </div>
+
+      <!-- Page Switching Tabs -->
+      <nav class="nav-links">
+        <button class="nav-btn active" data-page="page-eda"><i class="fa-solid fa-chart-pie"></i> EDA Analytics</button>
+        <button class="nav-btn" data-page="page-calc"><i class="fa-solid fa-calculator"></i> Tariff Calculator</button>
+        <button class="nav-btn" data-page="page-appliance"><i class="fa-solid fa-plug"></i> Appliance Load</button>
+        <button class="nav-btn" data-page="page-solar"><i class="fa-solid fa-solar-panel"></i> Solar ROI</button>
+        <button class="nav-btn" data-page="page-policy"><i class="fa-solid fa-scale-balanced"></i> Tariff Matrix</button>
+      </nav>
+
+      <div class="nav-badge">
+        <span class="pulse-dot"></span> DEV Project 2026
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content container">
+
+    <!-- =========================================================
+         PAGE 1: EXPLORATORY DATA ANALYSIS (EDA HUB)
+         ========================================================= -->
+    <div id="page-eda" class="page-view active">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title"><i class="fa-solid fa-chart-line text-purple"></i> Exploratory Data Analysis (EDA) Hub</h1>
+          <p class="page-subtitle">Visualizing real-world electricity consumption patterns extracted from open Kaggle datasets across Tamil Nadu</p>
+        </div>
+        <div class="filter-toolbar">
+          <div class="select-wrapper">
+            <i class="fa-solid fa-filter"></i>
+            <select id="edaSectorFilter" class="filter-select">
+              <option value="all">All Sectors (Domestic + Commercial + Agri)</option>
+              <option value="domestic">Domestic Feeders Only</option>
+              <option value="commercial">Commercial Feeders Only</option>
+              <option value="agricultural">Agricultural Feeders Only</option>
+            </select>
+          </div>
+          <div class="select-wrapper">
+            <i class="fa-solid fa-calendar"></i>
+            <select id="edaTimeframeFilter" class="filter-select">
+              <option value="hourly">Hourly Demand Curve (24 Hours)</option>
+              <option value="monthly">Monthly Consumption (12 Months)</option>
+              <option value="yearly">Multi-Year Trend (2020 - 2026)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- EDA Summary KPI Metrics -->
+      <div class="eda-kpi-grid">
+        <div class="kpi-card glass-panel">
+          <div class="kpi-icon purple"><i class="fa-solid fa-bolt-lightning"></i></div>
+          <div>
+            <span class="kpi-title">State Peak Grid Load</span>
+            <div class="kpi-value" id="kpiPeakLoad">21,200 MW</div>
+            <span class="kpi-sub text-emerald"><i class="fa-solid fa-arrow-trend-up"></i> +5.4% YoY Growth</span>
+          </div>
+        </div>
+        <div class="kpi-card glass-panel">
+          <div class="kpi-icon blue"><i class="fa-solid fa-house-user"></i></div>
+          <div>
+            <span class="kpi-title">Avg Household Bi-Monthly Usage</span>
+            <div class="kpi-value" id="kpiAvgUsage">385 kWh</div>
+            <span class="kpi-sub text-blue">Category A (&lt;= 500U) Majority</span>
+          </div>
+        </div>
+        <div class="kpi-card glass-panel">
+          <div class="kpi-icon emerald"><i class="fa-solid fa-sun"></i></div>
+          <div>
+            <span class="kpi-title">Rooftop Solar Adoption Rate</span>
+            <div class="kpi-value" id="kpiSolarRate">14.8%</div>
+            <span class="kpi-sub text-emerald"><i class="fa-solid fa-arrow-trend-up"></i> 65% Grid Import Reduction</span>
+          </div>
+        </div>
+        <div class="kpi-card glass-panel">
+          <div class="kpi-icon amber"><i class="fa-solid fa-clock"></i></div>
+          <div>
+            <span class="kpi-title">Peak Demand Hour</span>
+            <div class="kpi-value" id="kpiPeakHour">20:00 - 22:00</div>
+            <span class="kpi-sub text-amber">Evening Residential Surge</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EDA Main Charts Grid -->
+      <div class="grid-2col mb-24">
+        <!-- Main Line Chart -->
+        <div class="glass-panel chart-panel">
+          <div class="panel-header-row">
+            <h3 class="panel-heading"><i class="fa-solid fa-chart-area text-purple"></i> Grid Demand Load Curve (Kaggle Dataset #2 & #3)</h3>
+            <span class="badge-tag">Time Series Analytics</span>
+          </div>
+          <div class="chart-container large-chart">
+            <canvas id="edaTimeSeriesChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Radar Chart: Seasonal Variation -->
+        <div class="glass-panel chart-panel">
+          <div class="panel-header-row">
+            <h3 class="panel-heading"><i class="fa-solid fa-compass-drafting text-blue"></i> Seasonal Consumption Dynamics</h3>
+            <span class="badge-tag">Multivariate Profile</span>
+          </div>
+          <div class="chart-container large-chart">
+            <canvas id="edaSeasonalRadarChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- District Sector Breakdown & Dataset Table -->
+      <div class="grid-2col">
+        <div class="glass-panel chart-panel">
+          <div class="panel-header-row">
+            <h3 class="panel-heading"><i class="fa-solid fa-chart-column text-emerald"></i> Regional District Demand Distribution</h3>
+            <span class="badge-tag">District Analytics</span>
+          </div>
+          <div class="chart-container medium-chart">
+            <canvas id="edaDistrictChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Raw Dataset Explorer Table -->
+        <div class="glass-panel table-panel">
+          <div class="panel-header-row">
+            <h3 class="panel-heading"><i class="fa-solid fa-table-list text-amber"></i> Kaggle Dataset Sample Inspector</h3>
+            <input type="text" id="tableSearch" placeholder="Search Feeder or District..." class="table-search-input">
+          </div>
+          <div class="table-responsive small-table-container">
+            <table class="slab-table data-inspector-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Region / Feeder</th>
+                  <th>Category</th>
+                  <th>Load (MW)</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="datasetInspectorBody">
+                <!-- Dynamically filled by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- =========================================================
+         PAGE 2: 2026 TARIFF CALCULATOR & SLAB ANALYTICS
+         ========================================================= -->
+    <div id="page-calc" class="page-view">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title"><i class="fa-solid fa-calculator text-emerald"></i> 2026 Tariff Calculator & Slab Analytics</h1>
+          <p class="page-subtitle">Real-time bi-monthly electricity bill estimation under the 2026 state government tariff order</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Input Controls -->
+        <div class="glass-panel calc-controls">
+          <h3 class="panel-heading"><i class="fa-solid fa-sliders"></i> Input Parameters</h3>
+
+          <div class="form-group">
+            <label for="connectionType">Connection Type</label>
+            <select id="connectionType" class="form-control">
+              <option value="domestic">Domestic Tariff (1A) - 2026 Rules</option>
+              <option value="commercial">Commercial / Shop (Tariff 2B)</option>
+              <option value="industrial">Low Tension Industrial (Tariff 3B)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="unitsInput">Bi-Monthly Power Consumption (Units / kWh)</label>
+              <span class="badge-value" id="unitsVal">360 Units</span>
+            </div>
+            <input type="range" id="unitsSlider" min="0" max="1500" step="10" value="360" class="custom-slider">
+            <div class="input-with-suffix">
+              <input type="number" id="unitsInput" value="360" min="0" max="5000" class="form-control">
+              <span class="suffix">Units</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="loadInput">Contracted Load</label>
+              <span class="badge-value" id="loadVal">2 kW</span>
+            </div>
+            <input type="range" id="loadSlider" min="1" max="15" step="1" value="2" class="custom-slider">
+            <div class="input-with-suffix">
+              <input type="number" id="loadInput" value="2" min="1" max="50" class="form-control">
+              <span class="suffix">kW</span>
+            </div>
+          </div>
+
+          <div class="presets-container">
+            <span class="preset-label">Quick Usage Presets:</span>
+            <div class="preset-buttons">
+              <button type="button" class="btn-preset" onclick="setPreset(180, 1)">Small Flat (180U)</button>
+              <button type="button" class="btn-preset" onclick="setPreset(360, 2)">2BHK House (360U)</button>
+              <button type="button" class="btn-preset" onclick="setPreset(480, 3)">3BHK AC (480U)</button>
+              <button type="button" class="btn-preset" onclick="setPreset(750, 4)">Heavy Household (750U)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Output Card -->
+        <div class="glass-panel calc-results">
+          <div class="bill-header">
+            <div>
+              <span class="bill-label">Estimated Bi-Monthly Payable Bill</span>
+              <div class="bill-amount" id="totalBillAmount">₹ 752</div>
+            </div>
+            <div class="subsidy-badge" id="subsidyTag">
+              <i class="fa-solid fa-gift"></i> <span id="subsidyText">200 Units Free Applied</span>
+            </div>
+          </div>
+
+          <div class="bill-summary-list">
+            <div class="summary-item">
+              <span>Energy Charges</span>
+              <strong id="energyCharges">₹ 650.00</strong>
+            </div>
+            <div class="summary-item">
+              <span>Fixed Charges (₹51/kW/month x 2)</span>
+              <strong id="fixedCharges">₹ 204.00</strong>
+            </div>
+            <div class="summary-item Highlight">
+              <span>Total Subsidy Discount Received</span>
+              <strong class="text-emerald" id="subsidyValue">- ₹ 940.00</strong>
+            </div>
+          </div>
+
+          <div class="slab-breakdown-box">
+            <h4 class="box-title"><i class="fa-solid fa-list-check"></i> Slab-wise Tariff Breakdown</h4>
+            <div class="table-responsive">
+              <table class="slab-table">
+                <thead>
+                  <tr>
+                    <th>Slab Range</th>
+                    <th>Units</th>
+                    <th>Rate/Unit</th>
+                    <th>Cost</th>
+                  </tr>
+                </thead>
+                <tbody id="slabTableBody">
+                  <!-- Populated dynamically by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- =========================================================
+         PAGE 3: APPLIANCE CONSUMPTION & LOAD PROFILER
+         ========================================================= -->
+    <div id="page-appliance" class="page-view">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title"><i class="fa-solid fa-plug text-blue"></i> Appliance Load Profiler & Simulator</h1>
+          <p class="page-subtitle">Analyze how individual household appliances drive bi-monthly electricity units and peak load spikes</p>
+        </div>
+      </div>
+
+      <div class="glass-panel simulator-card">
+        <div class="sim-grid">
+          <div class="sim-controls">
+            <h3 class="panel-heading"><i class="fa-solid fa-sliders"></i> Select Daily Appliance Runtime</h3>
+
+            <div class="appliance-row">
+              <div class="app-info">
+                <div class="app-icon ac"><i class="fa-solid fa-snowflake"></i></div>
+                <div>
+                  <strong>1.5 Ton Inverter AC (1500W)</strong>
+                  <div class="sub-text">Consumes ~1.5 kWh/hr</div>
+                </div>
+              </div>
+              <div class="app-slider-container">
+                <input type="range" id="acHours" min="0" max="18" value="6" step="1" class="custom-slider">
+                <span class="val-display" id="acHoursVal">6 hrs/day</span>
+              </div>
+            </div>
+
+            <div class="appliance-row">
+              <div class="app-info">
+                <div class="app-icon fridge"><i class="fa-solid fa-temperature-arrow-down"></i></div>
+                <div>
+                  <strong>250L Refrigerator (200W)</strong>
+                  <div class="sub-text">Compressor runs ~10 hrs/day</div>
+                </div>
+              </div>
+              <div class="app-slider-container">
+                <input type="range" id="fridgeHours" min="4" max="24" value="10" step="1" class="custom-slider">
+                <span class="val-display" id="fridgeHoursVal">10 hrs/day</span>
+              </div>
+            </div>
+
+            <div class="appliance-row">
+              <div class="app-info">
+                <div class="app-icon geyser"><i class="fa-solid fa-water-ladder"></i></div>
+                <div>
+                  <strong>Storage Water Heater (2000W)</strong>
+                  <div class="sub-text">High wattage heating element</div>
+                </div>
+              </div>
+              <div class="app-slider-container">
+                <input type="range" id="geyserHours" min="0" max="5" value="1" step="0.5" class="custom-slider">
+                <span class="val-display" id="geyserHoursVal">1 hr/day</span>
+              </div>
+            </div>
+
+            <div class="appliance-row">
+              <div class="app-info">
+                <div class="app-icon lights"><i class="fa-solid fa-lightbulb"></i></div>
+                <div>
+                  <strong>4 Fans & 6 LED Bulbs (350W Total)</strong>
+                  <div class="sub-text">Continuous ambient usage</div>
+                </div>
+              </div>
+              <div class="app-slider-container">
+                <input type="range" id="lightsHours" min="2" max="18" value="10" step="1" class="custom-slider">
+                <span class="val-display" id="lightsHoursVal">10 hrs/day</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sim-analytics">
+            <h3 class="panel-heading"><i class="fa-solid fa-chart-pie"></i> Simulated Load Breakdown</h3>
+
+            <div class="metric-highlight-box">
+              <div class="m-card">
+                <span class="m-title">Total Simulated Units</span>
+                <div class="m-value text-blue" id="simTotalUnits">432 Units</div>
+              </div>
+              <div class="m-card">
+                <span class="m-title">Estimated Bill</span>
+                <div class="m-value text-emerald" id="simTotalBill">₹ 1,093</div>
+              </div>
+            </div>
+
+            <div class="chart-container large-chart">
+              <canvas id="applianceChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- =========================================================
+         PAGE 4: SOLAR ROOFTOP NET-METERING & ROI
+         ========================================================= -->
+    <div id="page-solar" class="page-view">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title"><i class="fa-solid fa-solar-panel text-amber"></i> Solar Rooftop ROI & Net-Metering</h1>
+          <p class="page-subtitle">Model 10-year cumulative financial payback and grid export savings for Tamil Nadu solar installations</p>
+        </div>
+      </div>
+
+      <div class="glass-panel solar-card">
+        <div class="grid-2col mb-24">
+          <div class="solar-inputs">
+            <h3 class="panel-heading"><i class="fa-solid fa-sun"></i> Solar System Parameters</h3>
+
+            <div class="form-group">
+              <div class="label-row">
+                <label for="solarCap">Rooftop Solar Capacity</label>
+                <span class="badge-value" id="solarCapVal">3 kW</span>
+              </div>
+              <input type="range" id="solarCapSlider" min="1" max="10" step="1" value="3" class="custom-slider">
+            </div>
+
+            <div class="form-group">
+              <div class="label-row">
+                <label for="houseUsage">Household Bi-Monthly Consumption</label>
+                <span class="badge-value" id="solarUsageVal">600 Units</span>
+              </div>
+              <input type="range" id="solarUsageSlider" min="200" max="1500" step="20" value="600" class="custom-slider">
+            </div>
+
+            <div class="info-alert">
+              <i class="fa-solid fa-circle-info"></i>
+              <span>Assumes average solar generation of ~120 kWh per kW per month in Tamil Nadu sunlight conditions.</span>
+            </div>
+          </div>
+
+          <div class="solar-outputs">
+            <h3 class="panel-heading"><i class="fa-solid fa-piggy-bank"></i> Financial Projection</h3>
+
+            <div class="solar-metrics-grid">
+              <div class="s-metric">
+                <span>Bi-Monthly Generation</span>
+                <strong class="text-amber" id="solarGenUnits">720 Units</strong>
+              </div>
+              <div class="s-metric">
+                <span>Bi-Monthly Savings</span>
+                <strong class="text-emerald" id="solarBiSavings">₹ 2,450</strong>
+              </div>
+              <div class="s-metric">
+                <span>Annual Savings</span>
+                <strong class="text-blue" id="solarAnnualSavings">₹ 14,700</strong>
+              </div>
+              <div class="s-metric">
+                <span>Estimated Payback Period</span>
+                <strong class="text-purple" id="solarPayback">3.8 Years</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Solar Payback Curve Chart -->
+        <div class="chart-panel">
+          <h3 class="panel-heading"><i class="fa-solid fa-chart-line text-emerald"></i> 10-Year Cumulative Financial ROI Projection</h3>
+          <div class="chart-container large-chart">
+            <canvas id="solarRoiChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- =========================================================
+         PAGE 5: COMPARATIVE TARIFF MATRIX
+         ========================================================= -->
+    <div id="page-policy" class="page-view">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title"><i class="fa-solid fa-scale-balanced text-amber"></i> Comparative Tariff Analysis</h1>
+          <p class="page-subtitle">Evaluating 2026 tariff structures against historical benchmarks across consumption brackets</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <div class="glass-panel">
+          <h3 class="panel-heading"><i class="fa-solid fa-chart-bar"></i> Bill Amount Comparison</h3>
+          <div class="chart-container large-chart">
+            <canvas id="comparisonChart"></canvas>
+          </div>
+        </div>
+
+        <div class="glass-panel">
+          <h3 class="panel-heading"><i class="fa-solid fa-table-cells"></i> 2026 Slab Matrix</h3>
+          <div class="table-responsive">
+            <table class="slab-table full-matrix">
+              <thead>
+                <tr>
+                  <th>Bi-Monthly Category</th>
+                  <th>Slab Tier</th>
+                  <th>Rate / Unit</th>
+                  <th>Free Scheme</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="3" class="cat-cell">Category A<br><small class="text-emerald">&lt;= 500 Units Total</small></td>
+                  <td>0 – 200 Units</td>
+                  <td><strong class="text-emerald">FREE (₹0.00)</strong></td>
+                  <td>200 Units Full Subsidy</td>
+                </tr>
+                <tr>
+                  <td>201 – 400 Units</td>
+                  <td>₹ 4.70 / unit</td>
+                  <td>Standard Tier</td>
+                </tr>
+                <tr>
+                  <td>401 – 500 Units</td>
+                  <td>₹ 6.30 / unit</td>
+                  <td>Standard Tier</td>
+                </tr>
+                <tr class="divider-row">
+                  <td colspan="4">Threshold Switch (&gt; 500 Units Consumed)</td>
+                </tr>
+                <tr>
+                  <td rowspan="5" class="cat-cell">Category B<br><small class="text-amber">&gt; 500 Units Total</small></td>
+                  <td>0 – 100 Units</td>
+                  <td><strong class="text-emerald">FREE (₹0.00)</strong></td>
+                  <td>100 Units Base Subsidy</td>
+                </tr>
+                <tr>
+                  <td>101 – 400 Units</td>
+                  <td>₹ 4.70 / unit</td>
+                  <td>Standard Tier</td>
+                </tr>
+                <tr>
+                  <td>401 – 500 Units</td>
+                  <td>₹ 6.30 / unit</td>
+                  <td>Standard Tier</td>
+                </tr>
+                <tr>
+                  <td>501 – 800 Units</td>
+                  <td>₹ 8.40 - ₹ 9.45 / unit</td>
+                  <td>High Demand Tier</td>
+                </tr>
+                <tr>
+                  <td>Above 800 Units</td>
+                  <td>₹ 10.50 - ₹ 11.55 / unit</td>
+                  <td>Premium Tier</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon"><i class="fa-solid fa-chart-line"></i></div>
+          <span class="brand-title">TNEB DEV Explorer</span>
+        </div>
+        <p>Data Exploration & Visualization Project. Kaggle Electricity Datasets & 2026 Tariff Analytics.</p>
+      </div>
+      <div class="footer-info">
+        <p>&copy; 2026 TNEB DEV Project. Built with Vanilla HTML5, CSS3 & Chart.js.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

@@ -8,28 +8,21 @@
   <meta name="description"
     content="Interactive Tamil Nadu Electricity Board (TNEB) tariff calculator, dataset visualization, and appliance consumption analytics under the 2026 government rules.">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 
-  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!-- Background Glow FX -->
   <div class="bg-glow glow-1"></div>
   <div class="bg-glow glow-2"></div>
   <div class="bg-glow glow-3"></div>
 
-  <!-- Header Navigation -->
   <header class="navbar">
     <div class="container nav-container">
       <div class="logo">
@@ -40,7 +33,6 @@
         </div>
       </div>
 
-      <!-- Page Switching Tabs -->
       <nav class="nav-links">
         <button class="nav-btn active" data-page="page-eda"><i class="fa-solid fa-chart-pie"></i> EDA Analytics</button>
         <button class="nav-btn" data-page="page-calc"><i class="fa-solid fa-calculator"></i> Tariff Calculator</button>
@@ -57,9 +49,6 @@
 
   <main class="main-content container">
 
-    <!-- =========================================================
-         PAGE 1: EXPLORATORY DATA ANALYSIS (EDA HUB)
-         ========================================================= -->
     <div id="page-eda" class="page-view active">
       <div class="page-header">
         <div>
@@ -87,7 +76,6 @@
         </div>
       </div>
 
-      <!-- EDA Summary KPI Metrics -->
       <div class="eda-kpi-grid">
         <div class="kpi-card glass-panel">
           <div class="kpi-icon purple"><i class="fa-solid fa-bolt-lightning"></i></div>
@@ -123,9 +111,7 @@
         </div>
       </div>
 
-      <!-- EDA Main Charts Grid -->
       <div class="grid-2col mb-24">
-        <!-- Main Line Chart -->
         <div class="glass-panel chart-panel">
           <div class="panel-header-row">
             <h3 class="panel-heading"><i class="fa-solid fa-chart-area text-purple"></i> Grid Demand Load Curve (Kaggle Dataset #2 & #3)</h3>
@@ -136,7 +122,6 @@
           </div>
         </div>
 
-        <!-- Radar Chart: Seasonal Variation -->
         <div class="glass-panel chart-panel">
           <div class="panel-header-row">
             <h3 class="panel-heading"><i class="fa-solid fa-compass-drafting text-blue"></i> Seasonal Consumption Dynamics</h3>
@@ -148,7 +133,6 @@
         </div>
       </div>
 
-      <!-- District Sector Breakdown & Dataset Table -->
       <div class="grid-2col">
         <div class="glass-panel chart-panel">
           <div class="panel-header-row">
@@ -160,7 +144,6 @@
           </div>
         </div>
 
-        <!-- Raw Dataset Explorer Table -->
         <div class="glass-panel table-panel">
           <div class="panel-header-row">
             <h3 class="panel-heading"><i class="fa-solid fa-table-list text-amber"></i> Kaggle Dataset Sample Inspector</h3>
@@ -178,7 +161,6 @@
                 </tr>
               </thead>
               <tbody id="datasetInspectorBody">
-                <!-- Dynamically filled by JS -->
               </tbody>
             </table>
           </div>
@@ -187,9 +169,6 @@
     </div>
 
 
-    <!-- =========================================================
-         PAGE 2: 2026 TARIFF CALCULATOR & SLAB ANALYTICS
-         ========================================================= -->
     <div id="page-calc" class="page-view">
       <div class="page-header">
         <div>
@@ -199,7 +178,6 @@
       </div>
 
       <div class="grid-2col">
-        <!-- Input Controls -->
         <div class="glass-panel calc-controls">
           <h3 class="panel-heading"><i class="fa-solid fa-sliders"></i> Input Parameters</h3>
 
@@ -247,7 +225,6 @@
           </div>
         </div>
 
-        <!-- Live Output Card -->
         <div class="glass-panel calc-results">
           <div class="bill-header">
             <div>
@@ -287,7 +264,6 @@
                   </tr>
                 </thead>
                 <tbody id="slabTableBody">
-                  <!-- Populated dynamically by JS -->
                 </tbody>
               </table>
             </div>
@@ -297,9 +273,6 @@
     </div>
 
 
-    <!-- =========================================================
-         PAGE 3: APPLIANCE CONSUMPTION & LOAD PROFILER
-         ========================================================= -->
     <div id="page-appliance" class="page-view">
       <div class="page-header">
         <div>
@@ -393,9 +366,6 @@
     </div>
 
 
-    <!-- =========================================================
-         PAGE 4: SOLAR ROOFTOP NET-METERING & ROI
-         ========================================================= -->
     <div id="page-solar" class="page-view">
       <div class="page-header">
         <div>
@@ -455,7 +425,6 @@
           </div>
         </div>
 
-        <!-- Solar Payback Curve Chart -->
         <div class="chart-panel">
           <h3 class="panel-heading"><i class="fa-solid fa-chart-line text-emerald"></i> 10-Year Cumulative Financial ROI Projection</h3>
           <div class="chart-container large-chart">
@@ -466,9 +435,6 @@
     </div>
 
 
-    <!-- =========================================================
-         PAGE 5: COMPARATIVE TARIFF MATRIX
-         ========================================================= -->
     <div id="page-policy" class="page-view">
       <div class="page-header">
         <div>

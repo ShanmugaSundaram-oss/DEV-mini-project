@@ -1,8 +1,3 @@
-/* -------------------------------------------------------------
-   TNEB Analytics - Data Exploration & Visualization (DEV) Logic
-   Architecture: Tabbed SPA Router & Dynamic Visualization Engine
-   ------------------------------------------------------------- */
-
 document.addEventListener('DOMContentLoaded', () => {
   initSpaRouter();
   initEdaHub();
@@ -12,10 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initTariffComparisonChart();
 });
 
-/* =============================================================
-   1. TABBED SPA ROUTER (NO SCROLLING PAGE SWITCHING)
-   ============================================================= */
-
 function initSpaRouter() {
   const navBtns = document.querySelectorAll('.nav-btn');
   const pageViews = document.querySelectorAll('.page-view');
@@ -24,11 +15,9 @@ function initSpaRouter() {
     btn.addEventListener('click', () => {
       const targetPageId = btn.getAttribute('data-page');
 
-      // Update Nav Buttons
       navBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // Update Page Views
       pageViews.forEach(page => {
         if (page.id === targetPageId) {
           page.classList.add('active');
@@ -37,22 +26,15 @@ function initSpaRouter() {
         }
       });
 
-      // Scroll smoothly to top of active container
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 }
 
-
-/* =============================================================
-   2. EXPLORATORY DATA ANALYSIS (EDA) HUB & CHARTS
-   ============================================================= */
-
 let timeSeriesChartInstance = null;
 let radarChartInstance = null;
 let districtChartInstance = null;
 
-// Datasets Mock Engine based on Kaggle TNEB & POSOCO Data
 const kaggleDataStore = {
   hourly: {
     labels: ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'],
@@ -243,11 +225,6 @@ function renderInspectorTable(query) {
   `).join('');
 }
 
-
-/* =============================================================
-   3. TARIFF CALCULATOR ENGINE
-   ============================================================= */
-
 const unitsSlider = document.getElementById('unitsSlider');
 const unitsInput = document.getElementById('unitsInput');
 const unitsValBadge = document.getElementById('unitsVal');
@@ -424,11 +401,6 @@ function calculateBill() {
   `).join('');
 }
 
-
-/* =============================================================
-   4. APPLIANCE LOAD PROFILER
-   ============================================================= */
-
 let applianceChartInstance = null;
 
 function initApplianceSimulator() {
@@ -512,11 +484,6 @@ function calculateSimulatedUsage() {
     }
   });
 }
-
-
-/* =============================================================
-   5. SOLAR NET-METERING & CUMULATIVE ROI CHART
-   ============================================================= */
 
 let solarRoiChartInstance = null;
 
@@ -618,11 +585,6 @@ function renderSolarRoiChart(initialCost, annualSavings) {
     }
   });
 }
-
-
-/* =============================================================
-   6. TARIFF COMPARISON MATRIX CHART
-   ============================================================= */
 
 function initTariffComparisonChart() {
   const ctx = document.getElementById('comparisonChart').getContext('2d');

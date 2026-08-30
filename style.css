@@ -1,11 +1,4 @@
-/* -------------------------------------------------------------
-   TNEB Analytics - Data Exploration & Visualization (DEV) Style System
-   Architecture: Tabbed SPA (No vertical page scrolling)
-   Theme: Glassmorphism Dark Mode with Electric Accents
-   ------------------------------------------------------------- */
-
 :root {
-  /* Color Palette */
   --bg-dark: #0a0e1a;
   --bg-surface: #131b2e;
   --bg-surface-elevated: #1a253d;
@@ -37,7 +30,6 @@
   --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Reset & Base Styles */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -59,7 +51,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Background Glowing Orbs */
 .bg-glow {
   position: fixed;
   border-radius: 50%;
@@ -101,7 +92,6 @@ body {
   100% { transform: translate(40px, 60px) scale(1.1); }
 }
 
-/* Typography & Colors */
 .text-emerald { color: var(--accent-emerald); }
 .text-blue { color: var(--accent-blue); }
 .text-purple { color: var(--accent-purple); }
@@ -119,7 +109,6 @@ body {
   margin-bottom: 24px;
 }
 
-/* Glassmorphism Panel */
 .glass-panel {
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
@@ -135,7 +124,6 @@ body {
   border-color: var(--glass-border-hover);
 }
 
-/* Navigation Bar */
 .navbar {
   position: sticky;
   top: 0;
@@ -191,7 +179,6 @@ body {
   font-weight: 700;
 }
 
-/* Tab Navigation Buttons */
 .nav-links {
   display: flex;
   gap: 4px;
@@ -257,13 +244,11 @@ body {
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
 }
 
-/* Main Page Container & Tab Logic */
 .main-content {
   flex: 1;
   padding: 24px 0 40px;
 }
 
-/* Page Views */
 .page-view {
   display: none;
 }
@@ -278,7 +263,6 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Page Header & Filters Bar */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -341,7 +325,6 @@ body {
   border-color: var(--accent-purple);
 }
 
-/* KPI Cards Grid */
 .eda-kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -388,7 +371,6 @@ body {
   font-weight: 700;
 }
 
-/* Grid Layouts */
 .grid-2col {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -433,7 +415,6 @@ body {
   font-weight: 700;
 }
 
-/* Chart Canvas Dimensions */
 .chart-container {
   position: relative;
   width: 100%;
@@ -447,7 +428,6 @@ body {
   height: 280px;
 }
 
-/* Data Table & Search */
 .table-panel {
   display: flex;
   flex-direction: column;
@@ -499,7 +479,6 @@ body {
   font-size: 12px;
 }
 
-/* Form Controls & Range Sliders */
 .form-group {
   margin-bottom: 20px;
 }
@@ -602,7 +581,6 @@ body {
   color: var(--text-main);
 }
 
-/* Calculation Result Box */
 .bill-header {
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(59, 130, 246, 0.15));
   border: 1px solid rgba(16, 185, 129, 0.3);
@@ -652,7 +630,6 @@ body {
   font-size: 13px;
 }
 
-/* Appliance Profiler Row */
 .appliance-row {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--glass-border);
@@ -727,7 +704,6 @@ body {
   margin-top: 4px;
 }
 
-/* Solar Cards */
 .info-alert {
   background: rgba(59, 130, 246, 0.1);
   border: 1px solid rgba(59, 130, 246, 0.3);
@@ -768,7 +744,6 @@ body {
   margin-top: 4px;
 }
 
-/* Footer */
 .footer {
   border-top: 1px solid var(--glass-border);
   padding: 24px 0;
